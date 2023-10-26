@@ -1,8 +1,10 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:amazon_clone/resources/authentication_methods.dart';
 import 'package:amazon_clone/utils/constants.dart';
 import 'package:amazon_clone/screens/sign_up_screen.dart';
 import 'package:amazon_clone/utils/color_theme.dart';
+import 'package:amazon_clone/utils/utils.dart';
 import 'package:amazon_clone/widgets/custom_main_button.dart';
 import 'package:amazon_clone/widgets/text_field_widget.dart';
 import 'package:flutter/material.dart';
@@ -11,22 +13,25 @@ class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
 
   @override
-  State<SignInScreen> createState() => _SignInScreenState();
+  State<SignInScreen>
+  
+ createState() => _SignInScreenState();
 }
 
 class _SignInScreenState extends State<SignInScreen> {
   TextEditingController emailcontroller = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  AuthenticationMethods authenticationMethods = AuthenticationMethods();
   bool isLoading = false;
+
   @override
   void dispose() {
     super.dispose();
     emailcontroller.dispose();
     passwordController.dispose();
   }
-  /**
-   * Dispose is a method triggered whenever the created object from the stateful widget is removed permanently from the widget tree. It is generally overridden and called only when the state object is destroyed. Dispose releases the memory allocated to the existing variables of the state
-   */
+
+  ///Dispose is a method triggered whenever the created object from the stateful widget is removed permanently from the widget tree. It is generally overridden and called only when the state object is destroyed. Dispose releases the memory allocated to the existing variables of the state
 
   @override
   Widget build(BuildContext context) {
@@ -83,18 +88,29 @@ class _SignInScreenState extends State<SignInScreen> {
                         Align(
                           alignment: Alignment.center,
                           child: CustomMainButton(
+                              color: yellowColor,
+                              isLoading: isLoading,
+                              onPressed: () async {
+                                // setState(() {
+                                //   isLoading = true;
+                                // });
+
+                                String output =
+                                    await authenticationMethods.signInUser(
+                                        email: emailcontroller.text,
+                                        password: passwordController.text);
+                                        if (output=="success"){
+                                          //functions
+                                        }else{
+                                          //error
+                                          Utils().showSnackBar(context: context, content: output);
+                                        }
+                              },
                               child: const Text(
                                 "Sign In",
                                 style: TextStyle(
                                     letterSpacing: 0.6, color: Colors.black),
-                              ),
-                              color: yellowColor,
-                              isLoading: isLoading,
-                              onPressed: () async {
-                                setState(() {
-                                  isLoading = true;
-                                });
-                              }),
+                              )),
                         ),
                       ],
                     ),
@@ -137,7 +153,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       onPressed: () {
                         Navigator.pushReplacement(context,
                             MaterialPageRoute(builder: (context) {
-                          return SignUpScreen();
+                          return const SignUpScreen();
                         }));
                       })
                 ],

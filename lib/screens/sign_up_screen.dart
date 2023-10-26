@@ -1,6 +1,10 @@
+import 'dart:math';
+
+import 'package:amazon_clone/resources/authentication_methods.dart';
 import 'package:amazon_clone/screens/sign_in_screen.dart';
 import 'package:amazon_clone/utils/constants.dart';
 import 'package:amazon_clone/utils/color_theme.dart';
+import 'package:amazon_clone/utils/utils.dart';
 import 'package:amazon_clone/widgets/custom_main_button.dart';
 import 'package:amazon_clone/widgets/text_field_widget.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +21,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+
+  AuthenticationMethods authenticationMethods = AuthenticationMethods();
   bool isLoading = false;
 
   @override
@@ -50,8 +57,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   height: screenHeight * 0.10,
                 ),
                 SizedBox(
-                    height: 30,
-                  ),
+                  height: 30,
+                ),
                 SizedBox(
                   height: screenHeight * 0.8,
                   width: screenWidth,
@@ -92,21 +99,44 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               controller: passwordController,
                               obscureText: true,
                               hintText: "Enter your password"),
+                          TextFieldWidget(
+                              title: "Confirm Password",
+                              controller: confirmPasswordController,
+                              obscureText: true,
+                              hintText: "Confirm your password"),
                           Align(
                             alignment: Alignment.center,
                             child: CustomMainButton(
-                                child: const Text(
-                                  "Sign In",
-                                  style: TextStyle(
-                                      letterSpacing: 0.6, color: Colors.black),
-                                ),
                                 color: yellowColor,
                                 isLoading: isLoading,
-                                onPressed: () async{
-                                  setState(() {
-                                    isLoading = true;
-                                  });
-                                }),
+                                onPressed: () async {
+                                  String output =
+                                      await authenticationMethods.signUpUser(
+                                          name: nameController.text,
+                                          address: addressController.text,
+                                          email: emailController.text,
+                                          password: passwordController.text,
+                                          cPassword:
+                                              confirmPasswordController.text);
+                                  if (output == "success") {
+                                    //functions
+                                    print("doing next step");
+                                  } else {
+                                    //error messages
+                                    //log(output);
+                                    // ignore: use_build_context_synchronously
+                                    Utils().showSnackBar(
+                                        context: context, content: output);
+                                  }
+                                  // setState(() {
+                                  //   isLoading = true;
+                                  // });
+                                },
+                                child: const Text(
+                                  "Sign Up",
+                                  style: TextStyle(
+                                      letterSpacing: 0.6, color: Colors.black),
+                                )),
                           ),
                         ],
                       ),
