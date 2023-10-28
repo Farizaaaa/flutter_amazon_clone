@@ -110,6 +110,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 color: yellowColor,
                                 isLoading: isLoading,
                                 onPressed: () async {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
                                   String output =
                                       await authenticationMethods.signUpUser(
                                           name: nameController.text,
@@ -118,7 +121,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           password: passwordController.text,
                                           cPassword:
                                               confirmPasswordController.text);
+                                  setState(() {
+                                    isLoading = false;
+                                  });
                                   if (output == "success") {
+                                    // ignore: use_build_context_synchronously
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) =>
+                                                const SignInScreen()));
                                     //functions
                                     print("doing next step");
                                   } else {
@@ -128,9 +140,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     Utils().showSnackBar(
                                         context: context, content: output);
                                   }
-                                  // setState(() {
-                                  //   isLoading = true;
-                                  // });
                                 },
                                 child: const Text(
                                   "Sign Up",
@@ -143,14 +152,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 40,
                 ),
                 CustomMainButton(
-                    child: const Text(
-                      "Back",
-                      style: TextStyle(letterSpacing: 0.6, color: Colors.black),
-                    ),
                     color: Colors.grey[400]!,
                     isLoading: false,
                     onPressed: () {
@@ -158,7 +163,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           MaterialPageRoute(builder: (context) {
                         return const SignInScreen();
                       }));
-                    })
+                    },
+                    child: const Text(
+                      "Back",
+                      style: TextStyle(letterSpacing: 0.6, color: Colors.black),
+                    ))
               ],
             ),
           ),

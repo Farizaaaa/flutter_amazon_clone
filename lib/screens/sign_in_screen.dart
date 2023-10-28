@@ -7,15 +7,14 @@ import 'package:amazon_clone/utils/color_theme.dart';
 import 'package:amazon_clone/utils/utils.dart';
 import 'package:amazon_clone/widgets/custom_main_button.dart';
 import 'package:amazon_clone/widgets/text_field_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
 
   @override
-  State<SignInScreen>
-  
- createState() => _SignInScreenState();
+  State<SignInScreen> createState() => _SignInScreenState();
 }
 
 class _SignInScreenState extends State<SignInScreen> {
@@ -91,20 +90,24 @@ class _SignInScreenState extends State<SignInScreen> {
                               color: yellowColor,
                               isLoading: isLoading,
                               onPressed: () async {
-                                // setState(() {
-                                //   isLoading = true;
-                                // });
-
+                                setState(() {
+                                  isLoading = true;
+                                });
+                                Future.delayed(Duration(seconds: 1));
                                 String output =
                                     await authenticationMethods.signInUser(
                                         email: emailcontroller.text,
                                         password: passwordController.text);
-                                        if (output=="success"){
-                                          //functions
-                                        }else{
-                                          //error
-                                          Utils().showSnackBar(context: context, content: output);
-                                        }
+                                setState(() {
+                                  isLoading = false;
+                                });
+                                if (output == "success") {
+                                  //functions
+                                } else {
+                                  //error
+                                  Utils().showSnackBar(
+                                      context: context, content: output);
+                                }
                               },
                               child: const Text(
                                 "Sign In",

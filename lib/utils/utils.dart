@@ -14,14 +14,17 @@ class Utils {
     //it can be calculated using context
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-          backgroundColor: Colors.orange,
+          backgroundColor: Colors.grey,
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(10), topRight: Radius.circular(10))),
           content: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(content),
+              Text(
+                content,
+                style: const TextStyle(color: Colors.black),
+              ),
             ],
           )),
     );
