@@ -7,7 +7,6 @@ import 'package:amazon_clone/utils/color_theme.dart';
 import 'package:amazon_clone/utils/utils.dart';
 import 'package:amazon_clone/widgets/custom_main_button.dart';
 import 'package:amazon_clone/widgets/text_field_widget.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SignInScreen extends StatefulWidget {
@@ -93,7 +92,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                 setState(() {
                                   isLoading = true;
                                 });
-                                Future.delayed(Duration(seconds: 1));
+
                                 String output =
                                     await authenticationMethods.signInUser(
                                         email: emailcontroller.text,
