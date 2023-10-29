@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:amazon_clone/resources/authentication_methods.dart';
 import 'package:amazon_clone/screens/sign_in_screen.dart';
 import 'package:amazon_clone/utils/constants.dart';

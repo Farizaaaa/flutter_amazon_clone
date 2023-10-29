@@ -1,3 +1,5 @@
+import 'package:amazon_clone/widgets/banner_add_widget.dart';
+import 'package:amazon_clone/widgets/categories_horizontal_list_view_bar.dart';
 import 'package:amazon_clone/widgets/search_bar_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -13,9 +15,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: SearchBarWidget(hasBackButton: false, isReadOnly: true),
-      body: Center(
-        child: Text("home screen"),
-      ),
+      body: SingleChildScrollView(
+          child: Column(
+        children: [CategoriesHorizonatlListviewBar(), BannerAddWidget()],
+      )),
     );
   }
 }
