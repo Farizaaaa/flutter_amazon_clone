@@ -11,10 +11,11 @@ class BannerAddWidget extends StatefulWidget {
 
 class _BannerAddWidgetState extends State<BannerAddWidget> {
   int currentAd = 0;
-  double smallHeight = 120;
+
   @override
   Widget build(BuildContext context) {
     Size scrrenSize = MediaQuery.of(context).size;
+    double smallHeight = scrrenSize.width / 5;
 
     return GestureDetector(
       onHorizontalDragEnd: (_) {
@@ -52,12 +53,20 @@ class _BannerAddWidgetState extends State<BannerAddWidget> {
             ],
           ),
           Container(
-            color: backgroundColor,
             width: scrrenSize.width,
             height: smallHeight,
-            child: const Row(
+            decoration: BoxDecoration(
+              border: Border.all(width: 0, color: backgroundColor),
+              color: backgroundColor,
+            ),
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [],
+              children: [
+                getSmallAdsFromIndex(0, smallHeight),
+                getSmallAdsFromIndex(1, smallHeight),
+                getSmallAdsFromIndex(2, smallHeight),
+                getSmallAdsFromIndex(3, smallHeight),
+              ],
             ),
           )
         ],
@@ -67,6 +76,8 @@ class _BannerAddWidgetState extends State<BannerAddWidget> {
 
   Widget getSmallAdsFromIndex(int index, double height) {
     return Container(
+        height: height,
+        width: height,
         decoration: ShapeDecoration(
             color: Colors.white,
             shadows: [
@@ -77,6 +88,15 @@ class _BannerAddWidgetState extends State<BannerAddWidget> {
             ],
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadiusDirectional.circular(20))),
-        child: const Column());
+        child: Center(
+            child: Column(
+          children: [
+            Image.network(smallAds[index]),
+            const SizedBox(
+              height: 5,
+            ),
+            Text(adItemNames[index])
+          ],
+        )));
   }
 }
