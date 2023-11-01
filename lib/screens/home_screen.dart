@@ -1,8 +1,10 @@
+import 'package:amazon_clone/model/user_details_model.dart';
+import 'package:amazon_clone/utils/constants.dart';
 import 'package:amazon_clone/widgets/banner_add_widget.dart';
 import 'package:amazon_clone/widgets/categories_horizontal_list_view_bar.dart';
 import 'package:amazon_clone/widgets/products_showcase_list_view.dart';
 import 'package:amazon_clone/widgets/search_bar_widget.dart';
-import 'package:amazon_clone/widgets/simple_product_widget.dart';
+import 'package:amazon_clone/widgets/user_details_bar.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -13,34 +15,57 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<Widget> testChildren = [
-    const SimpleProductWidget(
-        url: "https://m.media-amazon.com/images/I/51QISbJp5-L._SX3000_.jpg"),
-    const SimpleProductWidget(
-        url: "https://m.media-amazon.com/images/I/11uufjN3lYL._SX90_SY90_.png"),
-    const SimpleProductWidget(
-        url: "https://m.media-amazon.com/images/I/51QISbJp5-L._SX3000_.jpg"),
-    const SimpleProductWidget(
-        url: "https://m.media-amazon.com/images/I/11uufjN3lYL._SX90_SY90_.png"),
-  ];
+  ScrollController controller = ScrollController();
+  double offset = 0;
+ 
+
+  @override
+  void initState() {
+    super.initState();
+    //if anything changes in the screen we want to deetct it by the controller to controll the scrolling
+    controller.addListener(() {
+      setState(() {
+        offset = controller.position.pixels;
+      });
+      print(controller.position.pixels);
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    controller.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: SearchBarWidget(hasBackButton: false, isReadOnly: true),
-      body: SingleChildScrollView(
-          child: Column(
-        children: [
-          CategoriesHorizonatlListviewBar(),
-          BannerAddWidget(),
-          ProductsShowcaseListView(
-              title: "Upto 70% off", children: testChildren),
-          ProductsShowcaseListView(
-              title: "Upto 60% off", children: testChildren),
-          ProductsShowcaseListView(
-              title: "Upto 50% off", children: testChildren),
-          ProductsShowcaseListView(title: "Explore", children: testChildren)
-        ],
-      )),
+      body: Stack(children: [
+        SingleChildScrollView(
+            controller: controller,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: kAppBarHeight / 2,
+                ),
+                const CategoriesHorizonatlListviewBar(),
+                const BannerAddWidget(),
+                ProductsShowcaseListView(
+                    title: "Upto 70% off", children: testChildren),
+                ProductsShowcaseListView(
+                    title: "Upto 60% off", children: testChildren),
+                ProductsShowcaseListView(
+                    title: "Upto 50% off", children: testChildren),
+                ProductsShowcaseListView(
+                    title: "Explore", children: testChildren)
+              ],
+            )),
+        UserDetailsBar(
+          offset: offset,
+          userDetails: UserDetailsModel(name: "fai", address: "ss"),
+        )
+      ]),
     );
   }
 }
