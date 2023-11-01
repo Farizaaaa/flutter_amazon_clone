@@ -1,4 +1,6 @@
+import 'package:amazon_clone/screens/account_screen.dart';
 import 'package:amazon_clone/screens/home_screen.dart';
+import 'package:amazon_clone/widgets/simple_product_widget.dart';
 import 'package:flutter/material.dart';
 
 const double kAppBarHeight = 80;
@@ -66,9 +68,7 @@ List<String> keysOfRating = [
 
 const List<Widget> screens = [
             HomeScreen(),
-            Center(
-              child: Text("Account screen"),
-            ),
+            AccountScreen(),
             Center(
               child: Text("Cart screen"),
             ),
@@ -76,3 +76,15 @@ const List<Widget> screens = [
               child: Text("More screen"),
             ),
           ];
+
+
+           List<Widget> testChildren = [
+    const SimpleProductWidget(
+        url: "https://m.media-amazon.com/images/I/51QISbJp5-L._SX3000_.jpg"),
+    const SimpleProductWidget(
+        url: "https://m.media-amazon.com/images/I/11uufjN3lYL._SX90_SY90_.png"),
+    const SimpleProductWidget(
+        url: "https://m.media-amazon.com/images/I/51QISbJp5-L._SX3000_.jpg"),
+    const SimpleProductWidget(
+        url: "https://m.media-amazon.com/images/I/11uufjN3lYL._SX90_SY90_.png"),
+  ];
