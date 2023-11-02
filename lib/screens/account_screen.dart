@@ -125,28 +125,3 @@ class IntroductionWidgetAccountScreen extends StatelessWidget {
   }
 }
 
-
-/**
- * 1.AccountScreen.dart
- * =================
- * -create statefull widget
- * -change constants page screens list
- * -atttach AppBar
- * -code UI
- * -Extract IntroductionWidgetAccountScreen
- * -add buttons CustommAINbUTTON
- * 
- * 2.Widgets:Account_screen_app _bar.dart
- * ---------------------
- * -create a stateless widget
- * -inherit it from PrefferedSizedWidget
- * -give a parameter
- * -give override
- * @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
-  -give appbar in AccountScreen
-  -code UI of App BAr
-
- * 
- * 
- */
