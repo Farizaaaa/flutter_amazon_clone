@@ -1,6 +1,7 @@
 import 'package:amazon_clone/screens/account_screen.dart';
 import 'package:amazon_clone/screens/cart_screen.dart';
 import 'package:amazon_clone/screens/home_screen.dart';
+import 'package:amazon_clone/screens/more_screen.dart';
 import 'package:amazon_clone/widgets/simple_product_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -21,8 +22,6 @@ const List<String> categoriesList = [
   "Books, Toys",
   "Essential"
 ];
-
-
 
 const List<String> categoryLogos = [
   "https://m.media-amazon.com/images/I/11uufjN3lYL._SX90_SY90_.png",
@@ -58,7 +57,6 @@ const List<String> adItemNames = [
   "Pay Bills"
 ];
 
-
 List<String> keysOfRating = [
   "Very bad",
   "Poor",
@@ -68,22 +66,19 @@ List<String> keysOfRating = [
 ];
 
 const List<Widget> screens = [
-            HomeScreen(),
-            AccountScreen(),
-            CartScreen(),
-            Center(
-              child: Text("More screen"),
-            ),
-          ];
+  HomeScreen(),
+  AccountScreen(),
+  CartScreen(),
+  MoreScreen()
+];
 
-
-           List<Widget> testChildren = [
-    const SimpleProductWidget(
-        url: "https://m.media-amazon.com/images/I/51QISbJp5-L._SX3000_.jpg"),
-    const SimpleProductWidget(
-        url: "https://m.media-amazon.com/images/I/11uufjN3lYL._SX90_SY90_.png"),
-    const SimpleProductWidget(
-        url: "https://m.media-amazon.com/images/I/51QISbJp5-L._SX3000_.jpg"),
-    const SimpleProductWidget(
-        url: "https://m.media-amazon.com/images/I/11uufjN3lYL._SX90_SY90_.png"),
-  ];
+List<Widget> testChildren = [
+  const SimpleProductWidget(
+      url: "https://m.media-amazon.com/images/I/51QISbJp5-L._SX3000_.jpg"),
+  const SimpleProductWidget(
+      url: "https://m.media-amazon.com/images/I/11uufjN3lYL._SX90_SY90_.png"),
+  const SimpleProductWidget(
+      url: "https://m.media-amazon.com/images/I/51QISbJp5-L._SX3000_.jpg"),
+  const SimpleProductWidget(
+      url: "https://m.media-amazon.com/images/I/11uufjN3lYL._SX90_SY90_.png"),
+];
