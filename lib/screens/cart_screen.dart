@@ -1,6 +1,7 @@
 import 'package:amazon_clone/model/product_model.dart';
 import 'package:amazon_clone/model/user_details_model.dart';
 import 'package:amazon_clone/utils/color_theme.dart';
+import 'package:amazon_clone/utils/constants.dart';
 import 'package:amazon_clone/widgets/cart_item_widget.dart';
 import 'package:amazon_clone/widgets/custom_main_button.dart';
 import 'package:amazon_clone/widgets/search_bar_widget.dart';
@@ -20,43 +21,49 @@ class _CartScreenState extends State<CartScreen> {
     return Scaffold(
       appBar: SearchBarWidget(hasBackButton: false, isReadOnly: true),
       body: Center(
-        child: Column(
+        child: Stack(
           children: [
+            Column(
+              
+              children: [
+                const SizedBox(height: kAppBarHeight/2,),
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Center(
+                    child: CustomMainButton(
+                        color: yellowColor,
+                        isLoading: false,
+                        onPressed: () {},
+                        child: const Text(
+                          "Proceed to by (n) items",
+                          style: TextStyle(color: Colors.black),
+                        )),
+                  ),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: 5,
+                    itemBuilder: (context, index) => CartItemWidget(
+                        product: ProductModel(
+                            url:
+                                "https://m.media-amazon.com/images/I/11M5KkkmavL._SS70_.png",
+                            productName: "Fariza Latheef",
+                            cost: 1000,
+                            discount: 50,
+                            uid: "asfhf",
+                            sellerName: "jhcfbsdjkf",
+                            sellerUid: "jfhnadjkf",
+                            rating: 3,
+                            noOfRating: 1)),
+                  ),
+                )
+              ],
+            ),
             UserDetailsBar(
               offset: 0,
               userDetails:
                   UserDetailsModel(name: "Aadhi", address: "Somewhere"),
             ),
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: Center(
-                child: CustomMainButton(
-                    child: Text(
-                      "Proceed to by (n) items",
-                      style: TextStyle(color: Colors.black),
-                    ),
-                    color: yellowColor,
-                    isLoading: false,
-                    onPressed: () {}),
-              ),
-            ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: 5,
-                itemBuilder: (context, index) => CartItemWidget(
-                    product: ProductModel(
-                        url:
-                            "https://m.media-amazon.com/images/I/11M5KkkmavL._SS70_.png",
-                        productName: "Fariza Latheef",
-                        cost: 1000,
-                        discount: 50,
-                        uid: "asfhf",
-                        sellerName: "jhcfbsdjkf",
-                        sellerUid: "jfhnadjkf",
-                        rating: 3,
-                        noOfRating: 1)),
-              ),
-            )
           ],
         ),
       ),
