@@ -11,6 +11,7 @@ class CategoryWidget extends StatelessWidget {
     return GestureDetector(
       onTap: (){},
       child: Container(
+
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(7),

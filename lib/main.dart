@@ -1,5 +1,8 @@
 import 'package:amazon_clone/firebase_options.dart';
 import 'package:amazon_clone/layout/screen_layout.dart';
+import 'package:amazon_clone/model/product_model.dart';
+import 'package:amazon_clone/screens/product_screen.dart';
+import 'package:amazon_clone/screens/result_screen.dart';
 import 'package:amazon_clone/screens/sign_in_screen.dart';
 import 'package:amazon_clone/utils/color_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -36,14 +39,26 @@ class AmazonClone extends StatelessWidget {
                 ),
               );
             } else if (user.hasData) {
-              return const ScreenLayout();
+              // return const ScreenLayout();
               // print("uid:${FirebaseAuth.instance.currentUser!.uid}");
               // return ElevatedButton(
               //     onPressed: () {
               //       FirebaseAuth.instance.signOut();
               //     },
               //     child: Text("Sign out"));
-              // //return const Text("Signed In");
+              //return const Text("Signed In");
+              return ProductScreen(
+                  product: ProductModel(
+                      url:
+                          "https://m.media-amazon.com/images/I/11M5KkkmavL._SS70_.png",
+                      productName: "Fariza Latheef",
+                      cost: 1000,
+                      discount: 50,
+                      uid: "asfhf",
+                      sellerName: "jhcfbsdjkf",
+                      sellerUid: "jfhnadjkf",
+                      rating: 1,
+                      noOfRating: 1));
             } else {
               return const SignInScreen();
             }

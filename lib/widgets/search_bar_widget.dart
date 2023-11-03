@@ -1,3 +1,4 @@
+import 'package:amazon_clone/screens/result_screen.dart';
 import 'package:amazon_clone/utils/color_theme.dart';
 import 'package:amazon_clone/utils/constants.dart';
 import 'package:amazon_clone/widgets/search_screen.dart';
@@ -50,6 +51,12 @@ class SearchBarWidget extends StatelessWidget implements PreferredSizeWidget {
                   offset: const Offset(0, 5))
             ]),
             child: TextField(
+              onSubmitted: (String query) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ResulstScreen(query: query)));
+              },
               readOnly: isReadOnly,
               onTap: () {
                 if (isReadOnly) {
@@ -59,7 +66,6 @@ class SearchBarWidget extends StatelessWidget implements PreferredSizeWidget {
                           builder: (context) => const SearchScreen()));
                 }
               },
-              
               decoration: InputDecoration(
                 hintText: "Search for something in amazon",
                 fillColor: Colors.white,
