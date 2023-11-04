@@ -1,3 +1,4 @@
+import 'package:amazon_clone/model/product_model.dart';
 import 'package:amazon_clone/screens/account_screen.dart';
 import 'package:amazon_clone/screens/cart_screen.dart';
 import 'package:amazon_clone/screens/home_screen.dart';
@@ -73,12 +74,105 @@ const List<Widget> screens = [
 ];
 
 List<Widget> testChildren = [
-  const SimpleProductWidget(
-      url: "https://m.media-amazon.com/images/I/51QISbJp5-L._SX3000_.jpg"),
-  const SimpleProductWidget(
-      url: "https://m.media-amazon.com/images/I/11uufjN3lYL._SX90_SY90_.png"),
-  const SimpleProductWidget(
-      url: "https://m.media-amazon.com/images/I/51QISbJp5-L._SX3000_.jpg"),
-  const SimpleProductWidget(
-      url: "https://m.media-amazon.com/images/I/11uufjN3lYL._SX90_SY90_.png"),
+  SimpleProductWidget(
+      productModel: ProductModel(
+          url: "https://m.media-amazon.com/images/I/11M5KkkmavL._SS70_.png",
+          productName: "Fariza Latheef",
+          cost: 1000,
+          discount: 50,
+          uid: "asfhf",
+          sellerName: "jhcfbsdjkf",
+          sellerUid: "jfhnadjkf",
+          rating: 1,
+          noOfRating: 1)),
+  SimpleProductWidget(
+      productModel: ProductModel(
+          url: "https://m.media-amazon.com/images/I/11M5KkkmavL._SS70_.png",
+          productName: "Fariza Latheef",
+          cost: 1000,
+          discount: 50,
+          uid: "asfhf",
+          sellerName: "jhcfbsdjkf",
+          sellerUid: "jfhnadjkf",
+          rating: 1,
+          noOfRating: 1)),
+  SimpleProductWidget(
+      productModel: ProductModel(
+          url: "https://m.media-amazon.com/images/I/11M5KkkmavL._SS70_.png",
+          productName: "Fariza Latheef",
+          cost: 1000,
+          discount: 50,
+          uid: "asfhf",
+          sellerName: "jhcfbsdjkf",
+          sellerUid: "jfhnadjkf",
+          rating: 1,
+          noOfRating: 1)),
+  SimpleProductWidget(
+      productModel: ProductModel(
+          url: "https://m.media-amazon.com/images/I/11M5KkkmavL._SS70_.png",
+          productName: "Fariza Latheef",
+          cost: 1000,
+          discount: 50,
+          uid: "asfhf",
+          sellerName: "jhcfbsdjkf",
+          sellerUid: "jfhnadjkf",
+          rating: 1,
+          noOfRating: 1)),
+  SimpleProductWidget(
+      productModel: ProductModel(
+          url: "https://m.media-amazon.com/images/I/11M5KkkmavL._SS70_.png",
+          productName: "Fariza Latheef",
+          cost: 1000,
+          discount: 50,
+          uid: "asfhf",
+          sellerName: "jhcfbsdjkf",
+          sellerUid: "jfhnadjkf",
+          rating: 1,
+          noOfRating: 1)),
+  SimpleProductWidget(
+      productModel: ProductModel(
+          url: "https://m.media-amazon.com/images/I/11M5KkkmavL._SS70_.png",
+          productName: "Fariza Latheef",
+          cost: 1000,
+          discount: 50,
+          uid: "asfhf",
+          sellerName: "jhcfbsdjkf",
+          sellerUid: "jfhnadjkf",
+          rating: 1,
+          noOfRating: 1)),
+  SimpleProductWidget(
+      productModel: ProductModel(
+          url: "https://m.media-amazon.com/images/I/11M5KkkmavL._SS70_.png",
+          productName: "Fariza Latheef",
+          cost: 1000,
+          discount: 50,
+          uid: "asfhf",
+          sellerName: "jhcfbsdjkf",
+          sellerUid: "jfhnadjkf",
+          rating: 1,
+          noOfRating: 1)),
+  SimpleProductWidget(
+      productModel: ProductModel(
+          url: "https://m.media-amazon.com/images/I/11M5KkkmavL._SS70_.png",
+          productName: "Fariza Latheef",
+          cost: 1000,
+          discount: 50,
+          uid: "asfhf",
+          sellerName: "jhcfbsdjkf",
+          sellerUid: "jfhnadjkf",
+          rating: 1,
+          noOfRating: 1)),
+  SimpleProductWidget(
+      productModel: ProductModel(
+          url: "https://m.media-amazon.com/images/I/11M5KkkmavL._SS70_.png",
+          productName: "Fariza Latheef",
+          cost: 1000,
+          discount: 50,
+          uid: "asfhf",
+          sellerName: "jhcfbsdjkf",
+          sellerUid: "jfhnadjkf",
+          rating: 1,
+          noOfRating: 1)),
 ];
+
+List<String> keyOfRating = ["very bad", "poor", "Average", "good", "Excellent"];

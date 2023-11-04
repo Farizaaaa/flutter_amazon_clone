@@ -1,4 +1,5 @@
 import 'package:amazon_clone/model/product_model.dart';
+import 'package:amazon_clone/model/review_model.dart';
 import 'package:amazon_clone/model/user_details_model.dart';
 import 'package:amazon_clone/utils/color_theme.dart';
 import 'package:amazon_clone/utils/constants.dart';
@@ -6,6 +7,7 @@ import 'package:amazon_clone/widgets/cost_widget.dart';
 import 'package:amazon_clone/widgets/custom_main_button.dart';
 import 'package:amazon_clone/widgets/custom_simple_round_button.dart';
 import 'package:amazon_clone/widgets/rating_star_widget.dart';
+import 'package:amazon_clone/widgets/review_widget.dart';
 import 'package:amazon_clone/widgets/search_bar_widget.dart';
 import 'package:amazon_clone/widgets/user_details_bar.dart';
 import 'package:flutter/material.dart';
@@ -100,6 +102,19 @@ class _ProductScreenState extends State<ProductScreen> {
                     ),
                     SizedBox(
                       height: screenSize.height,
+                      child: ListView.builder(
+                        itemCount: 10,
+                        itemBuilder: (context, index) {
+                          return const ReviewWidget(
+                              review: ReviewModel(
+                                  senderName: "Fariza",
+                                  description: "Wow Nice",
+                                  rating: 3));
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      height: screenSize.height,
                     )
                   ]),
                 ),
@@ -124,5 +139,25 @@ class _ProductScreenState extends State<ProductScreen> {
  * Custom Main Button 2
  * add CustomSimpleButton
  * -create a model class named review_model 
+ *   -this is for creating the riview button work in DB
+ *    -create new widget:review_widget.dart
+ *                  --------------------------
+ *                  add parameter reviewModel
+ * -connect it on the product screen as listview.builder
+ * to make this page appear after clicking product pic
+ * ----------------------
+ * -in the simple_product_widget
+ * -add new parameter of product model
+ * -give gesture detector nad in ontap
+ * -give navigator .push to productscreen
+ * 
+ * chnage the teschildren list in constants:which shows the products from the database
+ * -inside it addd Simple_product_widget with required parameters
+ * 
+ * -create new file widgets:review_dialod.dart
+ * ------------------------------------------
+ * this is to add the dialog box coming after clicking on the addreviewforthisproduct button
+ *! -for this we have to use a package called rating_dialog
+ * add it in the pubspec.yaml file
  * 
  */
