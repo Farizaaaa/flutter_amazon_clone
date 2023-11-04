@@ -47,18 +47,7 @@ class AmazonClone extends StatelessWidget {
               //     },
               //     child: Text("Sign out"));
               //return const Text("Signed In");
-              return ProductScreen(
-                  product: ProductModel(
-                      url:
-                          "https://m.media-amazon.com/images/I/11M5KkkmavL._SS70_.png",
-                      productName: "Fariza Latheef",
-                      cost: 1000,
-                      discount: 50,
-                      uid: "asfhf",
-                      sellerName: "jhcfbsdjkf",
-                      sellerUid: "jfhnadjkf",
-                      rating: 1,
-                      noOfRating: 1));
+              return const ScreenLayout();
             } else {
               return const SignInScreen();
             }
