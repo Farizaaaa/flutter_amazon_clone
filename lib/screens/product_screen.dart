@@ -1,12 +1,12 @@
 import 'package:amazon_clone/model/product_model.dart';
 import 'package:amazon_clone/model/review_model.dart';
-import 'package:amazon_clone/model/user_details_model.dart';
 import 'package:amazon_clone/utils/color_theme.dart';
 import 'package:amazon_clone/utils/constants.dart';
 import 'package:amazon_clone/widgets/cost_widget.dart';
 import 'package:amazon_clone/widgets/custom_main_button.dart';
 import 'package:amazon_clone/widgets/custom_simple_round_button.dart';
 import 'package:amazon_clone/widgets/rating_star_widget.dart';
+import 'package:amazon_clone/widgets/review_dialog.dart';
 import 'package:amazon_clone/widgets/review_widget.dart';
 import 'package:amazon_clone/widgets/search_bar_widget.dart';
 import 'package:amazon_clone/widgets/user_details_bar.dart';
@@ -57,13 +57,21 @@ class _ProductScreenState extends State<ProductScreen> {
                                         widget.product.sellerName,
                                         style: const TextStyle(
                                             color: activeCyanColor,
-                                            fontSize: 16),
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w700),
                                       ),
                                     ),
-                                    Text(widget.product.productName)
+                                    Text(
+                                      widget.product.productName,
+                                      style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600),
+                                    )
                                   ],
                                 ),
-                                RatingStar(rating: widget.product.rating)
+                                RatingStar(
+                                  rating: widget.product.rating,
+                                )
                               ],
                             ),
                           ),
@@ -95,7 +103,11 @@ class _ProductScreenState extends State<ProductScreen> {
                                   style: TextStyle(color: Colors.black))),
                           spaceThing,
                           CustomSimpleRoundButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) => const RiviewDialog());
+                              },
                               text: "Add a review for this product"),
                         ],
                       ),
@@ -120,9 +132,8 @@ class _ProductScreenState extends State<ProductScreen> {
                 ),
               ),
               UserDetailsBar(
-                  offset: 0,
-                  userDetails: UserDetailsModel(
-                      name: "Fariza", address: "Somwhere on Earth"))
+                offset: 0,
+              )
             ],
           )),
     );
@@ -159,5 +170,11 @@ class _ProductScreenState extends State<ProductScreen> {
  * this is to add the dialog box coming after clicking on the addreviewforthisproduct button
  *! -for this we have to use a package called rating_dialog
  * add it in the pubspec.yaml file
+ * -for this copy the example of rating dialog from pub.dev
+ * andd update the code in it
+ * 
+ * 
+ * - call the reviewdialog widget in the product screen inside the CustomSimpleWidgetButton
+ * -using showDialog ()
  * 
  */

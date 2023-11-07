@@ -5,6 +5,7 @@ import 'package:amazon_clone/widgets/search_screen.dart';
 import 'package:flutter/material.dart';
 
 class SearchBarWidget extends StatelessWidget implements PreferredSizeWidget {
+  
   final bool isReadOnly;
   final bool hasBackButton;
 

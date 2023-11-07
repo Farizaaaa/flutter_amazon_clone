@@ -1,9 +1,13 @@
+import 'package:amazon_clone/model/user_details_model.dart';
+import 'package:amazon_clone/providers/user_details_provider.dart';
+import 'package:amazon_clone/screens/sell_screen.dart';
 import 'package:amazon_clone/utils/color_theme.dart';
 import 'package:amazon_clone/utils/constants.dart';
 import 'package:amazon_clone/widgets/accont_screen_app_bar.dart';
 import 'package:amazon_clone/widgets/custom_main_button.dart';
 import 'package:amazon_clone/widgets/products_showcase_list_view.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -30,8 +34,8 @@ class _AccountScreenState extends State<AccountScreen> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: CustomMainButton(
-                    child:
-                        const Text("Sign in", style: TextStyle(color: Colors.black)),
+                    child: const Text("Sign in",
+                        style: TextStyle(color: Colors.black)),
                     color: Colors.orange,
                     isLoading: false,
                     onPressed: () {}),
@@ -39,26 +43,42 @@ class _AccountScreenState extends State<AccountScreen> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: CustomMainButton(
-                    child: const Text("Sell", style: TextStyle(color: Colors.black)),
+                    child: const Text("Sell",
+                        style: TextStyle(color: Colors.black)),
                     color: yellowColor,
                     isLoading: false,
-                    onPressed: () {}),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SellScreen(),
+                          ));
+                    }),
               ),
               ProductsShowcaseListView(
                   title: "Your Orders", children: testChildren),
               const Padding(
                 padding: EdgeInsets.all(15),
-                child: Align(alignment: Alignment.centerLeft, child: Text("Order Requests",style: TextStyle(fontSize: 17,fontWeight: FontWeight.w900),)),
+                child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Order Requests",
+                      style:
+                          TextStyle(fontSize: 17, fontWeight: FontWeight.w900),
+                    )),
               ),
               Expanded(
                   child: ListView.builder(
                 itemCount: 5,
                 itemBuilder: (context, index) {
                   return ListTile(
-                    title: const Text("Order: Black Show",style: TextStyle(fontWeight: FontWeight.w600),),
+                    title: const Text(
+                      "Order: Black Show",
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    ),
                     subtitle: const Text("Address: Somwhere on earth"),
-                    trailing:
-                        IconButton(onPressed: () {}, icon: const Icon(Icons.check)),
+                    trailing: IconButton(
+                        onPressed: () {}, icon: const Icon(Icons.check)),
                   );
                 },
               ))
@@ -77,6 +97,10 @@ class IntroductionWidgetAccountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    UserDetailsModel userDetails = Provider.of<UserDetailsProvider>(
+      context,
+      listen: true,
+    ).userDetails!;
     return Container(
       height: kAppBarHeight / 2,
       decoration: const BoxDecoration(
@@ -98,16 +122,16 @@ class IntroductionWidgetAccountScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 17),
                 child: RichText(
-                    text: const TextSpan(children: [
-                  TextSpan(
-                      text: "Hello,",
+                    text: TextSpan(children: [
+                  const TextSpan(
+                      text: "Hello, ",
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 27,
                       )),
                   TextSpan(
-                      text: " Aadhi",
-                      style: TextStyle(
+                      text: "${userDetails.name}",
+                      style: const TextStyle(
                           color: Colors.black,
                           fontSize: 27,
                           fontWeight: FontWeight.bold))
@@ -124,4 +148,3 @@ class IntroductionWidgetAccountScreen extends StatelessWidget {
     );
   }
 }
-
