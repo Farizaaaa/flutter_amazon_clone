@@ -6,5 +6,9 @@ class UserDetailsModel {
     required this.address,
   });
 
-  Map<String, dynamic> getjson() => {"name": name, "address": address};
+  Map<String, dynamic> getJson() => {"name": name, "address": address};
+
+  factory UserDetailsModel.getModelFromJson(Map<String, dynamic> json) {
+    return UserDetailsModel(name: json["name"], address: json["address"]);
+  }
 }

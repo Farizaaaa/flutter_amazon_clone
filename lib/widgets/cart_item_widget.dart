@@ -1,4 +1,5 @@
 import 'package:amazon_clone/model/product_model.dart';
+import 'package:amazon_clone/screens/product_screen.dart';
 import 'package:amazon_clone/utils/color_theme.dart';
 import 'package:amazon_clone/widgets/custom_simple_round_button.dart';
 import 'package:amazon_clone/widgets/custom_square_button.dart';
@@ -7,7 +8,7 @@ import 'package:flutter/material.dart';
 
 class CartItemWidget extends StatelessWidget {
   final ProductModel product;
-  const CartItemWidget({super.key,required this.product});
+  const CartItemWidget({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -23,23 +24,32 @@ class CartItemWidget extends StatelessWidget {
         children: [
           Expanded(
               flex: 3,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: screenSize.width / 3,
-                    child: Align(
-                        alignment: Alignment.topCenter,
-                        child: Center(
-                          child: Image.network(
-                              product.url),
-                        )),
-                  ),
-                   ProductInformationWidget(
-                      productName: product.productName,
-                      cost: 1000,
-                      sellerName: product.sellerName)
-                ],
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ProductScreen(product: product),
+                    ),
+                  );
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: screenSize.width / 3,
+                      child: Align(
+                          alignment: Alignment.topCenter,
+                          child: Center(
+                            child: Image.network(product.url),
+                          )),
+                    ),
+                    ProductInformationWidget(
+                        productName: product.productName,
+                        cost: 1000,
+                        sellerName: product.sellerName)
+                  ],
+                ),
               )),
           Expanded(
               flex: 1,

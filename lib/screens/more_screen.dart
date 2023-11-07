@@ -32,6 +32,8 @@ class MoreScreen extends StatelessWidget {
  * stateless
  * only stateless screen
  * change constants
- * 
+ * on category screen
+ * --------------
+ * -on ontap pass the call to result screen
  * 
  */

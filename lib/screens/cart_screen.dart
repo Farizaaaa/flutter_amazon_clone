@@ -1,5 +1,4 @@
 import 'package:amazon_clone/model/product_model.dart';
-import 'package:amazon_clone/model/user_details_model.dart';
 import 'package:amazon_clone/utils/color_theme.dart';
 import 'package:amazon_clone/utils/constants.dart';
 import 'package:amazon_clone/widgets/cart_item_widget.dart';
@@ -24,9 +23,10 @@ class _CartScreenState extends State<CartScreen> {
         child: Stack(
           children: [
             Column(
-              
               children: [
-                const SizedBox(height: kAppBarHeight/2,),
+                const SizedBox(
+                  height: kAppBarHeight / 2,
+                ),
                 Padding(
                   padding: const EdgeInsets.all(20),
                   child: Center(
@@ -61,9 +61,7 @@ class _CartScreenState extends State<CartScreen> {
             ),
             UserDetailsBar(
               offset: 0,
-              userDetails:
-                  UserDetailsModel(name: "Aadhi", address: "Somewhere"),
-            ),
+                ),
           ],
         ),
       ),

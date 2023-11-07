@@ -1,3 +1,4 @@
+import 'package:amazon_clone/screens/result_screen.dart';
 import 'package:amazon_clone/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -9,9 +10,15 @@ class CategoryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){},
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ResulstScreen(query: categoriesList[index]),
+          ),
+        );
+      },
       child: Container(
-
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(7),
@@ -33,8 +40,8 @@ class CategoryWidget extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
                   categoriesList[index],
-                  style:
-                      TextStyle(fontWeight: FontWeight.w500, letterSpacing: 0.5),
+                  style: TextStyle(
+                      fontWeight: FontWeight.w500, letterSpacing: 0.5),
                 ),
               )
             ],

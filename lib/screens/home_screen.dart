@@ -1,4 +1,3 @@
-import 'package:amazon_clone/model/user_details_model.dart';
 import 'package:amazon_clone/utils/constants.dart';
 import 'package:amazon_clone/widgets/banner_add_widget.dart';
 import 'package:amazon_clone/widgets/categories_horizontal_list_view_bar.dart';
@@ -17,7 +16,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   ScrollController controller = ScrollController();
   double offset = 0;
- 
 
   @override
   void initState() {
@@ -63,7 +61,6 @@ class _HomeScreenState extends State<HomeScreen> {
             )),
         UserDetailsBar(
           offset: offset,
-          userDetails: UserDetailsModel(name: "fai", address: "ss"),
         )
       ]),
     );

@@ -20,7 +20,7 @@ class ResulstScreen extends StatelessWidget {
               child: RichText(
                 text: TextSpan(children: [
                   const TextSpan(
-                      text: "Showing results for",
+                      text: "Showing results for ",
                       style: TextStyle(fontSize: 17)),
                   TextSpan(
                       text: query,
