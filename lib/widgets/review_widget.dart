@@ -1,4 +1,4 @@
-import 'package:amazon_clone/model/review_model.dart';
+import 'package:amazon_clone/models/review_model.dart';
 import 'package:amazon_clone/utils/constants.dart';
 import 'package:amazon_clone/widgets/rating_star_widget.dart';
 import 'package:flutter/material.dart';

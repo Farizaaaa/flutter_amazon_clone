@@ -1,5 +1,5 @@
-import 'package:amazon_clone/model/product_model.dart';
-import 'package:amazon_clone/model/review_model.dart';
+import 'package:amazon_clone/models/product_model.dart';
+import 'package:amazon_clone/models/review_model.dart';
 import 'package:amazon_clone/utils/color_theme.dart';
 import 'package:amazon_clone/utils/constants.dart';
 import 'package:amazon_clone/widgets/cost_widget.dart';
@@ -10,6 +10,7 @@ import 'package:amazon_clone/widgets/review_dialog.dart';
 import 'package:amazon_clone/widgets/review_widget.dart';
 import 'package:amazon_clone/widgets/search_bar_widget.dart';
 import 'package:amazon_clone/widgets/user_details_bar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ProductScreen extends StatefulWidget {
@@ -106,32 +107,47 @@ class _ProductScreenState extends State<ProductScreen> {
                               onPressed: () {
                                 showDialog(
                                     context: context,
-                                    builder: (context) => const RiviewDialog());
+                                    builder: (context) => RiviewDialog(
+                                        productUid: widget.product.uid));
                               },
                               text: "Add a review for this product"),
                         ],
                       ),
                     ),
                     SizedBox(
-                      height: screenSize.height,
-                      child: ListView.builder(
-                        itemCount: 10,
-                        itemBuilder: (context, index) {
-                          return const ReviewWidget(
-                              review: ReviewModel(
-                                  senderName: "Fariza",
-                                  description: "Wow Nice",
-                                  rating: 3));
-                        },
-                      ),
-                    ),
+                        height: screenSize.height,
+                        child: StreamBuilder(
+                            stream: FirebaseFirestore.instance
+                                .collection("products")
+                                .doc(widget.product.uid)
+                                .collection("reviews")
+                                .snapshots(),
+                            builder: (context,
+                                AsyncSnapshot<
+                                        QuerySnapshot<Map<String, dynamic>>>
+                                    snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return Container();
+                              } else {
+                                return ListView.builder(
+                                  itemCount: snapshot.data!.docs.length,
+                                    itemBuilder: (context, index) {
+                                  ReviewModel model =
+                                      ReviewModel.getModelFromJson(
+                                          json: snapshot.data!.docs[index]
+                                              .data());
+                                  return ReviewWidget(review: model);
+                                });
+                              }
+                            })),
                     SizedBox(
                       height: screenSize.height,
                     )
                   ]),
                 ),
               ),
-              UserDetailsBar(
+              const UserDetailsBar(
                 offset: 0,
               )
             ],
@@ -176,5 +192,24 @@ class _ProductScreenState extends State<ProductScreen> {
  * 
  * - call the reviewdialog widget in the product screen inside the CustomSimpleWidgetButton
  * -using showDialog ()
+ * 
+ * review collection
+ * ==================
+ * -take the child listview of SizedBox
+ * - and put it inside a StreamBuilder
+ * -the StreamBuilder will constantly listen to changes that happening in the collection section of productcollection
+ * -when we add a review in the dialog box it will appear quickly below the review section
+ * -there will be a collection of review inside every product 
+ * -thus each product will have a folder named review 
+ * -thus we want changes to this reviews collection and add those items to a listview inside a stream builder
+ * -AsyncSnapshot? checkout
+ * -create a class inside reviewModel getModelFromJson
+ * -create a future function uploadReviewtodatabase in the cloudfirestore 
+ * -using this we can upload review to db
+ * -create a getJson function inside the ReviewModel to use inside it
+ * -inside the reviewDialod widget add one more parameter called productUid
+ *       -create a function inside onSubmitted to submit data into cloudFirestore 
+ *       -in the onsubmitted section
+ * inside productscreen at Customsimpleroundedbutton add parameter to review dialog
  * 
  */

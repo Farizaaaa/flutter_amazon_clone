@@ -33,4 +33,17 @@ class ProductModel {
       'noOfRating': noOfRating,
     };
   }
+
+  factory ProductModel.getModelFromJson({required Map<String, dynamic> json}) {
+    return ProductModel(
+        url: json["url"],
+        productName: json["productName"],
+        cost: json["cost"],
+        discount: json["discount"],
+        uid: json["uid"],
+        sellerName: json["sellerName"],
+        sellerUid: json["sellerUid"],
+        rating: json["rating"],
+        noOfRating: json["noOfRating"]);
+  }
 }
