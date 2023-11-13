@@ -249,7 +249,10 @@ class _SellScreenState extends State<SellScreen> {
  * -use the firebaseFirestore.collection method to create a collection in DB
  * -just like we craeted collection of users
  * -crete a getJson function inside productModelClass
- * 
+ * -use taht function in uploadproduct class
+ *  -- run all
+ * --succcess product uploaded and product collection created in firebase db
+ * --we can also see taht the price is reducing according to the discount we given
  * 
  * 
  */

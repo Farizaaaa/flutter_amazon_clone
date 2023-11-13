@@ -1,4 +1,4 @@
-import 'package:amazon_clone/model/product_model.dart';
+import 'package:amazon_clone/models/product_model.dart';
 import 'package:amazon_clone/utils/color_theme.dart';
 import 'package:amazon_clone/utils/constants.dart';
 import 'package:amazon_clone/widgets/cart_item_widget.dart';

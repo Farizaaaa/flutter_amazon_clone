@@ -1,8 +1,13 @@
+import 'package:amazon_clone/models/review_model.dart';
+import 'package:amazon_clone/providers/user_details_provider.dart';
+import 'package:amazon_clone/resources/cloudfirestore_methods.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 
 class RiviewDialog extends StatelessWidget {
-  const RiviewDialog({super.key});
+  final String productUid;
+  const RiviewDialog({super.key, required this.productUid});
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +29,19 @@ class RiviewDialog extends StatelessWidget {
       commentHint: 'Type here',
       onCancelled: () => print('cancelled'),
       onSubmitted: (RatingDialogResponse res) {
-        print(res.comment);
-        print(res.rating);
+        (RatingDialogResponse res) async {
+          CloudFirestoreClass().uploadReviewToDatabase(
+              productUid: productUid,
+              model: ReviewModel(
+                  senderName:
+                      Provider.of<UserDetailsProvider>(context, listen: false)
+                          .userDetails!
+                          .name,
+                  description: res.comment,
+                  rating: res.rating.toInt()));
+        };
+        //  print(res.comment);
+        //print(res.rating);
       },
     );
   }

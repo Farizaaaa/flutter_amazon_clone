@@ -1,4 +1,4 @@
-import 'package:amazon_clone/model/product_model.dart';
+import 'package:amazon_clone/models/product_model.dart';
 import 'package:amazon_clone/screens/account_screen.dart';
 import 'package:amazon_clone/screens/cart_screen.dart';
 import 'package:amazon_clone/screens/home_screen.dart';

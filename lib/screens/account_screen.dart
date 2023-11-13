@@ -1,4 +1,4 @@
-import 'package:amazon_clone/model/user_details_model.dart';
+import 'package:amazon_clone/models/user_details_model.dart';
 import 'package:amazon_clone/providers/user_details_provider.dart';
 import 'package:amazon_clone/screens/sell_screen.dart';
 import 'package:amazon_clone/utils/color_theme.dart';
