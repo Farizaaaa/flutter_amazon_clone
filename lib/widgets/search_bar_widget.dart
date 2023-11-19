@@ -1,7 +1,7 @@
 import 'package:amazon_clone/screens/result_screen.dart';
 import 'package:amazon_clone/utils/color_theme.dart';
 import 'package:amazon_clone/utils/constants.dart';
-import 'package:amazon_clone/widgets/search_screen.dart';
+import 'package:amazon_clone/screens/search_screen.dart';
 import 'package:flutter/material.dart';
 
 class SearchBarWidget extends StatelessWidget implements PreferredSizeWidget {

@@ -115,7 +115,7 @@ class _ProductScreenState extends State<ProductScreen> {
                       ),
                     ),
                     SizedBox(
-                        height: screenSize.height,
+                        height: screenSize.height / 2,
                         child: StreamBuilder(
                             stream: FirebaseFirestore.instance
                                 .collection("products")
@@ -131,14 +131,14 @@ class _ProductScreenState extends State<ProductScreen> {
                                 return Container();
                               } else {
                                 return ListView.builder(
-                                  itemCount: snapshot.data!.docs.length,
+                                    itemCount: snapshot.data!.docs.length,
                                     itemBuilder: (context, index) {
-                                  ReviewModel model =
-                                      ReviewModel.getModelFromJson(
-                                          json: snapshot.data!.docs[index]
-                                              .data());
-                                  return ReviewWidget(review: model);
-                                });
+                                      ReviewModel model =
+                                          ReviewModel.getModelFromJson(
+                                              json: snapshot.data!.docs[index]
+                                                  .data());
+                                      return ReviewWidget(review: model);
+                                    });
                               }
                             })),
                     SizedBox(
