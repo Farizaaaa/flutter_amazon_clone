@@ -28,20 +28,19 @@ class RiviewDialog extends StatelessWidget {
       submitButtonTextStyle: TextStyle(color: Colors.orange),
       commentHint: 'Type here',
       onCancelled: () => print('cancelled'),
-      onSubmitted: (RatingDialogResponse res) {
-        (RatingDialogResponse res) async {
-          CloudFirestoreClass().uploadReviewToDatabase(
-              productUid: productUid,
-              model: ReviewModel(
-                  senderName:
-                      Provider.of<UserDetailsProvider>(context, listen: false)
-                          .userDetails!
-                          .name,
-                  description: res.comment,
-                  rating: res.rating.toInt()));
-        };
-        //  print(res.comment);
-        //print(res.rating);
+      onSubmitted: (RatingDialogResponse res) async {
+        CloudFirestoreClass().uploadReviewToDatabase(
+            productUid: productUid,
+            model: ReviewModel(
+                senderName:
+                    Provider.of<UserDetailsProvider>(context, listen: false)
+                        .userDetails!
+                        .name,
+                description: res.comment,
+                rating: res.rating.toInt()));
+
+        print(res.comment);
+        print(res.rating);
       },
     );
   }

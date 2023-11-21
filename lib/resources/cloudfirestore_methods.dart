@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:amazon_clone/models/order_requests_model.dart';
 import 'package:amazon_clone/models/product_model.dart';
 import 'package:amazon_clone/models/review_model.dart';
 import 'package:amazon_clone/models/user_details_model.dart';
@@ -54,7 +56,10 @@ class CloudFirestoreClass {
         String url = await uploadImageToDatabase(image: image, uid: uid);
         print(url);
         double cost = double.parse(rawCost);
-        cost = cost * (discount / 100);
+        if (discount != 0) {
+          cost = cost * (discount / 100);
+        }
+
         ProductModel product = ProductModel(
             url: url,
             productName: productName,
@@ -110,7 +115,82 @@ class CloudFirestoreClass {
         .doc(productUid)
         .collection("reviews")
         .add(model.getJson());
-    // await changeAverageRating(productUid: productUid, reviewModel: model);
+
+    await changeAverageRating(productUid: productUid, reviewModel: model);
+  }
+
+  Future addProductToCart({required ProductModel productModel}) async {
+    await firebaseFirestore
+        .collection("users")
+        .doc(firebaseAuth.currentUser!.uid)
+        .collection("cart")
+        .doc(productModel.uid)
+        .set(productModel.getJson());
+    //.add(productModel.getJson()); we have to chnage add to set cz add will chnge the existin uid and create overrites existing
+  }
+
+  Future deleteProductFromCart({required String uid}) async {
+    firebaseFirestore
+        .collection("users")
+        .doc(firebaseAuth.currentUser!.uid)
+        .collection("cart")
+        .doc(uid)
+        .delete();
+  }
+
+  Future buyAllItemsInCart({required UserDetailsModel userDetails}) async {
+    QuerySnapshot<Map<String, dynamic>> snapshot = await firebaseFirestore
+        .collection("users")
+        .doc(firebaseAuth.currentUser!.uid)
+        .collection("cart")
+        .get();
+
+    for (int i = 0; i < snapshot.docs.length; i++) {
+      ProductModel model =
+          ProductModel.getModelFromJson(json: snapshot.docs[i].data());
+      addProductToOrders(model: model, userDetails: userDetails);
+      await deleteProductFromCart(uid: model.uid);
+    }
+  }
+
+  Future addProductToOrders(
+      {required ProductModel model,
+      required UserDetailsModel userDetails}) async {
+    await firebaseFirestore
+        .collection("users")
+        .doc(firebaseAuth.currentUser!.uid)
+        .collection("orders")
+        .add(model.getJson());
+    await sendOrderRequest(model: model, userDetails: userDetails);
+  }
+
+  Future sendOrderRequest(
+      {required ProductModel model,
+      required UserDetailsModel userDetails}) async {
+    OrderRequestModel orderRequestModel = OrderRequestModel(
+        orderName: model.productName, buyersAddress: userDetails.address);
+    await firebaseFirestore
+        .collection("users")
+        .doc(model.sellerUid)
+        .collection("orderRequests")
+        .add(orderRequestModel.getJson());
+  }
+
+  Future changeAverageRating(
+      {required String productUid, required ReviewModel reviewModel}) async {
+//5
+//1
+//5+1/2
+    DocumentSnapshot snapshot =
+        await firebaseFirestore.collection("products").doc(productUid).get();
+    ProductModel model =
+        ProductModel.getModelFromJson(json: (snapshot.data() as dynamic));
+    int currentRating = model.rating;
+    int newRating = (currentRating + reviewModel.rating) ~/ 2;
+    await firebaseFirestore
+        .collection("products")
+        .doc(productUid)
+        .update({"rating": newRating});
   }
 }
 

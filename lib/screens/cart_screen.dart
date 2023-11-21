@@ -1,11 +1,18 @@
 import 'package:amazon_clone/models/product_model.dart';
+import 'package:amazon_clone/providers/user_details_provider.dart';
+import 'package:amazon_clone/resources/cloudfirestore_methods.dart';
 import 'package:amazon_clone/utils/color_theme.dart';
 import 'package:amazon_clone/utils/constants.dart';
+import 'package:amazon_clone/utils/utils.dart';
 import 'package:amazon_clone/widgets/cart_item_widget.dart';
 import 'package:amazon_clone/widgets/custom_main_button.dart';
 import 'package:amazon_clone/widgets/search_bar_widget.dart';
 import 'package:amazon_clone/widgets/user_details_bar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -30,38 +37,74 @@ class _CartScreenState extends State<CartScreen> {
                 Padding(
                   padding: const EdgeInsets.all(20),
                   child: Center(
-                    child: CustomMainButton(
-                        color: yellowColor,
-                        isLoading: false,
-                        onPressed: () {},
-                        child: const Text(
-                          "Proceed to by (n) items",
-                          style: TextStyle(color: Colors.black),
-                        )),
-                  ),
+                      child: StreamBuilder(
+                          stream: FirebaseFirestore.instance
+                              .collection("users")
+                              .doc(FirebaseAuth.instance.currentUser!.uid)
+                              .collection("cart")
+                              .snapshots(),
+                          builder: (context,
+                              AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                                  snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return CustomMainButton(
+                                  color: yellowColor,
+                                  isLoading: true,
+                                  onPressed: () {},
+                                  child: const Text("Loading"));
+                            } else {
+                              return CustomMainButton(
+                                  color: yellowColor,
+                                  isLoading: false,
+                                  onPressed: () async {
+                                    await CloudFirestoreClass()
+                                        .buyAllItemsInCart(
+                                            userDetails: Provider.of<
+                                                        UserDetailsProvider>(
+                                                    context,
+                                                    listen: false)
+                                                .userDetails!);
+                                    Utils().showSnackBar(
+                                        context: context, content: "Done");
+                                  },
+                                  child: Text(
+                                    "Proceed to buy (${snapshot.data!.docs.length}) items",
+                                    style: const TextStyle(color: Colors.black),
+                                  ));
+                            }
+                          })),
                 ),
                 Expanded(
-                  child: ListView.builder(
-                    itemCount: 5,
-                    itemBuilder: (context, index) => CartItemWidget(
-                        product: ProductModel(
-                            url:
-                                "https://m.media-amazon.com/images/I/11M5KkkmavL._SS70_.png",
-                            productName: "Fariza Latheef",
-                            cost: 1000,
-                            discount: 50,
-                            uid: "asfhf",
-                            sellerName: "jhcfbsdjkf",
-                            sellerUid: "jfhnadjkf",
-                            rating: 3,
-                            noOfRating: 1)),
+                  child: StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection("users")
+                        .doc(FirebaseAuth.instance.currentUser!.uid)
+                        .collection("cart")
+                        .snapshots(),
+                    builder: (context,
+                        AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                            snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Container();
+                      } else {
+                        return ListView.builder(
+                            itemBuilder: (context, index) {
+                              ProductModel model =
+                                  ProductModel.getModelFromJson(
+                                      json: snapshot.data!.docs[index].data());
+                              return CartItemWidget(product: model);
+                            },
+                            itemCount: snapshot.data!.docs.length);
+                      }
+                    },
                   ),
                 )
               ],
             ),
-            UserDetailsBar(
+            const UserDetailsBar(
               offset: 0,
-                ),
+            ),
           ],
         ),
       ),
@@ -118,4 +161,23 @@ class _CartScreenState extends State<CartScreen> {
  *-fix tis at top of cart_item as a parameter
  -change all values inside the cart_item page to parameter.value
  * 
+ * 
+ * working of cart items from DB
+ * =====================
+ * -delete entire listview.builder
+ * -add stremBuilder there
+ * -make the proceed to buy n items showing button work
+ * -wrap the button inside a stream builder and implement it there
+ * 
+ * delete button work
+ * -make a function deleteProductFromCart in cloudfirestore
+ * -use it in delete buttons onpressed on cartitemwidget
+ * 
+ * add button work
+ * -crete on the onPreseed of that button
+ * 
+ * buy all items cart button functional by buying all
+ * --------------
+ * -create function buyAllItemsinCart in cloudfirestore
+ * -
  */
