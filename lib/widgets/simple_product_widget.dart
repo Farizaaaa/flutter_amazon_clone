@@ -22,7 +22,10 @@ class SimpleProductWidget extends StatelessWidget {
           color: Colors.white,
           child: Padding(
             padding: const EdgeInsets.all(10),
-            child: Image.network(productModel.url),
+            child: Image.network(
+              productModel.url,
+              fit: BoxFit.cover,
+            ),
           ),
         ),
       ),
