@@ -1,3 +1,5 @@
+import 'package:amazon_clone/models/order_requests_model.dart';
+import 'package:amazon_clone/models/product_model.dart';
 import 'package:amazon_clone/models/user_details_model.dart';
 import 'package:amazon_clone/providers/user_details_provider.dart';
 import 'package:amazon_clone/screens/sell_screen.dart';
@@ -6,6 +8,9 @@ import 'package:amazon_clone/utils/constants.dart';
 import 'package:amazon_clone/widgets/accont_screen_app_bar.dart';
 import 'package:amazon_clone/widgets/custom_main_button.dart';
 import 'package:amazon_clone/widgets/products_showcase_list_view.dart';
+import 'package:amazon_clone/widgets/simple_product_widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -34,11 +39,13 @@ class _AccountScreenState extends State<AccountScreen> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: CustomMainButton(
-                    child: const Text("Sign in",
+                    child: const Text("Sign Out",
                         style: TextStyle(color: Colors.black)),
                     color: Colors.orange,
                     isLoading: false,
-                    onPressed: () {}),
+                    onPressed: () {
+                      FirebaseAuth.instance.signOut();
+                    }),
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -51,12 +58,35 @@ class _AccountScreenState extends State<AccountScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => SellScreen(),
+                            builder: (context) => const SellScreen(),
                           ));
                     }),
               ),
-              ProductsShowcaseListView(
-                  title: "Your Orders", children: testChildren),
+              //future Builder is just like the stream builder
+              //dosnt constantly  listen for the changes it wait for a
+              //future function or async or await to complete and rebuild the builder
+              FutureBuilder(
+                  future: FirebaseFirestore.instance
+                      .collection("users")
+                      .doc(FirebaseAuth.instance.currentUser!.uid)
+                      .collection("orders")
+                      .get(),
+                  builder: (context,
+                      AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                          snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Container();
+                    } else {
+                      List<Widget> children = [];
+                      for (int i = 0; i < snapshot.data!.docs.length; i++) {
+                        ProductModel model = ProductModel.getModelFromJson(
+                            json: snapshot.data!.docs[i].data());
+                        children.add(SimpleProductWidget(productModel: model));
+                      }
+                      return ProductsShowcaseListView(
+                          title: "Your Orders", children: children);
+                    }
+                  }),
               const Padding(
                 padding: EdgeInsets.all(15),
                 child: Align(
@@ -68,20 +98,48 @@ class _AccountScreenState extends State<AccountScreen> {
                     )),
               ),
               Expanded(
-                  child: ListView.builder(
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: const Text(
-                      "Order: Black Show",
-                      style: TextStyle(fontWeight: FontWeight.w600),
-                    ),
-                    subtitle: const Text("Address: Somwhere on earth"),
-                    trailing: IconButton(
-                        onPressed: () {}, icon: const Icon(Icons.check)),
-                  );
-                },
-              ))
+                child: StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection("users")
+                      .doc(FirebaseAuth.instance.currentUser!.uid)
+                      .collection("orderRequests")
+                      .snapshots(),
+                  builder: (context,
+                      AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                          snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Container();
+                    } else {
+                      return ListView.builder(
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: (context, index) {
+                            OrderRequestModel model =
+                                OrderRequestModel.getModelFromJson(
+                                    json: snapshot.data!.docs[index].data());
+                            return ListTile(
+                              title: Text(
+                                "Order: ${model.orderName}",
+                                style: TextStyle(fontWeight: FontWeight.w500),
+                              ),
+                              subtitle: Text("Address: ${model.buyersAddress}"),
+                              trailing: IconButton(
+                                  onPressed: () async {
+                                    FirebaseFirestore.instance
+                                        .collection("users")
+                                        .doc(FirebaseAuth
+                                            .instance.currentUser!.uid)
+                                        .collection("orderRequests")
+                                        .doc(snapshot.data!.docs[index].id)
+                                        .delete();
+                                  },
+                                  icon: Icon(Icons.check)),
+                            );
+                            ;
+                          });
+                    }
+                  },
+                ),
+              ),
             ],
           ),
         ),

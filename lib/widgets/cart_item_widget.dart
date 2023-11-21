@@ -1,6 +1,8 @@
 import 'package:amazon_clone/models/product_model.dart';
+import 'package:amazon_clone/resources/cloudfirestore_methods.dart';
 import 'package:amazon_clone/screens/product_screen.dart';
 import 'package:amazon_clone/utils/color_theme.dart';
+import 'package:amazon_clone/utils/utils.dart';
 import 'package:amazon_clone/widgets/custom_simple_round_button.dart';
 import 'package:amazon_clone/widgets/custom_square_button.dart';
 import 'package:amazon_clone/widgets/product_information_widget.dart';
@@ -15,7 +17,7 @@ class CartItemWidget extends StatelessWidget {
     Size screenSize = MediaQuery.of(context).size;
     return Container(
       padding: const EdgeInsets.all(20),
-      height: screenSize.height / 2,
+      height: screenSize.height / 1.5,
       width: screenSize.width,
       decoration: const BoxDecoration(
           color: backgroundColor,
@@ -44,6 +46,9 @@ class CartItemWidget extends StatelessWidget {
                             child: Image.network(product.url),
                           )),
                     ),
+                    SizedBox(
+                      width: screenSize.width / 15,
+                    ),
                     ProductInformationWidget(
                         productName: product.productName,
                         cost: 1000,
@@ -70,7 +75,19 @@ class CartItemWidget extends StatelessWidget {
                       )),
                   CustomSquareButton(
                       child: const Icon(Icons.add),
-                      onPressed: () {},
+                      onPressed: () async {
+                        await CloudFirestoreClass().addProductToCart(
+                            productModel: ProductModel(
+                                url: product.url,
+                                productName: product.productName,
+                                cost: product.cost,
+                                discount: product.discount,
+                                uid: Utils().getUid(),
+                                sellerName: product.sellerName,
+                                sellerUid: product.sellerUid,
+                                rating: product.rating,
+                                noOfRating: product.noOfRating));
+                      },
                       color: backgroundColor,
                       dimention: 40)
                 ],
@@ -85,7 +102,11 @@ class CartItemWidget extends StatelessWidget {
                     Row(
                       children: [
                         CustomSimpleRoundButton(
-                            onPressed: () {}, text: "Delete"),
+                            onPressed: () async {
+                              CloudFirestoreClass()
+                                  .deleteProductFromCart(uid: product.uid);
+                            },
+                            text: "Delete"),
                         const SizedBox(
                           width: 7,
                         ),
@@ -99,7 +120,8 @@ class CartItemWidget extends StatelessWidget {
                         alignment: Alignment.centerLeft,
                         child: Text(
                           "See more like this",
-                          style: TextStyle(color: activeCyanColor),
+                          style:
+                              TextStyle(color: activeCyanColor, fontSize: 15),
                         ),
                       ),
                     )

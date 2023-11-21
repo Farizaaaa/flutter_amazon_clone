@@ -1,6 +1,8 @@
 import 'package:amazon_clone/models/product_model.dart';
+import 'package:amazon_clone/widgets/loading_widget.dart';
 import 'package:amazon_clone/widgets/results_widget.dart';
 import 'package:amazon_clone/widgets/search_bar_widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ResulstScreen extends StatelessWidget {
@@ -31,25 +33,29 @@ class ResulstScreen extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: GridView.builder(
-              itemCount: 9,
-              itemBuilder: (context, index) {
-                return ResultWidget(
-                    product: ProductModel(
-                        url:
-                            "https://m.media-amazon.com/images/I/11M5KkkmavL._SS70_.png",
-                        productName: "Fariza Latheef",
-                        cost: 1000,
-                        discount: 50,
-                        uid: "asfhf",
-                        sellerName: "jhcfbsdjkf",
-                        sellerUid: "jfhnadjkf",
-                        rating: 4,
-                        noOfRating: 1));
-              },
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3, childAspectRatio: 2 / 3),
-            ),
+            child: FutureBuilder(
+                future: FirebaseFirestore.instance
+                    .collection("products")
+                    .where("productName", isEqualTo: query)
+                    .get(),
+                builder: (context,
+                    AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                        snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return LoadingWidget();
+                  } else {
+                    return GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3, childAspectRatio: 2 / 3.5),
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (context, index) {
+                        ProductModel product = ProductModel.getModelFromJson(
+                            json: snapshot.data!.docs[index].data());
+                        return ResultWidget(product: product);
+                      },
+                    );
+                  }
+                }),
           )
         ],
       ),

@@ -17,6 +17,7 @@ class RatingStar extends StatelessWidget {
               Icons.star_border,
               color: Colors.orange,
             ));
+      print(rating);
     }
     return Row(
       children: children,
