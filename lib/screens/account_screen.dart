@@ -198,7 +198,8 @@ class IntroductionWidgetAccountScreen extends StatelessWidget {
               const Padding(
                 padding: EdgeInsets.only(right: 20),
                 child: CircleAvatar(
-                  backgroundImage: NetworkImage(""),
+                  backgroundImage: NetworkImage(
+                      "https://i0.wp.com/www.tech-sisters.com/wp-content/uploads/2020/02/muslim-women-in-tech-amina-aweis-profile-picture.jpg?resize=400%2C400"),
                 ),
               )
             ],
