@@ -9,7 +9,7 @@ With Authentication, Database Integration, State Management, Firebase Storage, F
 
 | Sign-In Screen                                | Sign-Up Screen                                      |
 | --------------------------------------------- | --------------------------------------------------- |
-| ![image](assets/images/sign%20in.png)         | [image](assets/images/sign%20up.png)                |
+| ![image](assets/images/sign%20in.png)         | ![image](assets/images/sign%20up.png)                |
 | Home Screen                                   | Home Screen                                         |
 | ![image](assets/images/homepage.png)          | ![image](assets/images/homepage2.png)               |
 | Account Screen                                | Sell Screen                                         |
