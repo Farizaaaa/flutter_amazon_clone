@@ -5,6 +5,26 @@
 In this repository contains functional Amazon Clone with the cross-platform framework, Flutter, with the backend as Firebase.
 With Authentication, Database Integration, State Management, Firebase Storage, Firebase Firestore, and much more!
 
+
+
+
+
+
+## Roles and Interactions Flowchart
+
+This flowchart demonstrates the key roles (User, Seller, and Admin) and their interactions within platform.
+```mermaid
+graph TD
+    User[User] -->|Browse Products| Seller[Seller]
+    User -->|Add to Cart| Seller
+    User -->|Place Order| Admin[Admin]
+    Seller -->|List Products| Admin
+    Seller -->|Manage Inventory| Admin
+    Admin -->|Manage Orders| User
+    
+
+```
+
 ## Screenshots
 
 | Sign-In Screen                                | Sign-Up Screen                                      |
